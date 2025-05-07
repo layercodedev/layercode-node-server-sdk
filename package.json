@@ -2,7 +2,7 @@
   "author": "Layercode",
   "license": "MIT",
   "name": "@layercode/node-server-sdk",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Layercode Node.js Server Side SDK",
   "type": "module",
   "main": "./dist/cjs/index.js",
