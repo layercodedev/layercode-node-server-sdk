@@ -1,0 +1,53 @@
+{
+  "author": "Layercode",
+  "license": "MIT",
+  "name": "@layercode/node-server-sdk",
+  "version": "1.2.0",
+  "description": "Layercode Node.js Server Side SDK",
+  "type": "module",
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/esm/index.d.ts",
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "exports": {
+    ".": {
+      "import": "./dist/esm/index.js",
+      "require": "./dist/cjs/index.js",
+      "types": "./dist/esm/index.d.ts",
+      "default": "./dist/esm/index.js"
+    }
+  },
+  "scripts": {
+    "build": "rollup -c",
+    "dev": "rollup -c -w",
+    "clean": "rimraf dist",
+    "prebuild": "npm run clean",
+    "prepare": "npm run build"
+  },
+  "keywords": [
+    "layercode",
+    "audio",
+    "sdk",
+    "node"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^25.0.0",
+    "@rollup/plugin-node-resolve": "^15.0.0",
+    "@rollup/plugin-typescript": "^11.0.0",
+    "@types/node": "^22.15.3",
+    "rimraf": "^6.0.1",
+    "rollup": "^4.0.0",
+    "typescript": "^5.8.2"
+  },
+  "compilerOptions": {
+    "declaration": true,
+    "declarationDir": "./dist/esm",
+    "emitDeclarationOnly": false
+  }
+}
