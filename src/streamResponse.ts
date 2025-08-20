@@ -1,5 +1,5 @@
 /**
- * Creates a server-sent events (SSE) stream response for the Layercode pipeline.
+ * Creates a server-sent events (SSE) stream response for the Layercode agent.
  * @param requestBody - The full request body (parsed JSON) from the webhook route.
  * @param handler - Async function that receives helpers for writing to the stream.
  * @returns Response object
@@ -32,16 +32,16 @@ export function streamResponse(requestBody: Record<string, any>, handler: Stream
 
   // Write helpers
   const stream = {
-    tts: (content: any) => sendEvent('response.tts', { content }),
+    tts: (content: any) => sendEvent("response.tts", { content }),
     ttsTextStream: async (textStream: AsyncIterable<any>) => {
       for await (const chunk of textStream) {
         stream.tts(chunk);
       }
     },
-    data: (content: any) => sendEvent('response.data', { content }),
+    data: (content: any) => sendEvent("response.data", { content }),
     // other: (type: string, payload: any) => sendEvent(type, payload),
     end: () => {
-      sendEvent('response.end', {});
+      sendEvent("response.end", {});
       streamController.close();
     },
   };
@@ -52,7 +52,7 @@ export function streamResponse(requestBody: Record<string, any>, handler: Stream
       try {
         await handler({ stream });
       } catch (err: any) {
-        sendEvent('response.error', { error: err.message });
+        sendEvent("response.error", { error: err.message });
         controller.close();
       }
     },
@@ -60,10 +60,10 @@ export function streamResponse(requestBody: Record<string, any>, handler: Stream
 
   return new Response(readable, {
     headers: {
-      'Content-Type': 'text/event-stream',
-      'Cache-Control': 'no-cache, no-transform',
-      Connection: 'keep-alive',
-      'Content-Encoding': 'none',
+      "Content-Type": "text/event-stream",
+      "Cache-Control": "no-cache, no-transform",
+      Connection: "keep-alive",
+      "Content-Encoding": "none",
     },
   });
 }
