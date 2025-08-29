@@ -5,10 +5,17 @@
  * @returns Response object
  */
 
+import { ttsWorkersAIStream as ttsWorkersAIStreamUtil } from './ttsWorkersAIStream';
+
 export interface StreamResponseHandlerHelpers {
   stream: {
     tts: (content: string) => void;
     ttsTextStream: (textStream: AsyncIterable<string>) => Promise<void>;
+    /**
+     * Parse a Workers AI (SSE JSON) stream and speak chunks via TTS.
+     * Returns the concatenated text that was spoken.
+     */
+    ttsWorkersAIStream: (llmResponseStream: ReadableStream<Uint8Array>) => Promise<string>;
     data: (content: any) => void;
     // other?: (type: string, payload: any) => void;
     end: () => void;
@@ -38,6 +45,8 @@ export function streamResponse(requestBody: Record<string, any>, handler: Stream
         stream.tts(chunk);
       }
     },
+    ttsWorkersAIStream: async (llmResponseStream: ReadableStream<Uint8Array>): Promise<string> =>
+      ttsWorkersAIStreamUtil(llmResponseStream, (text) => stream.tts(text)),
     data: (content: any) => sendEvent('response.data', { content }),
     // other: (type: string, payload: any) => sendEvent(type, payload),
     end: () => {
